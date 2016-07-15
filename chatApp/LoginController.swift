@@ -27,7 +27,8 @@ class LoginController: UIViewController {
         button.setTitle("Register", forState: .Normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
+        button.layer.cornerRadius = 5
+        button.titleLabel?.font = UIFont.boldSystemFontOfSize(17)
         
         button.addTarget(self, action: #selector(handleRegister), forControlEvents: .TouchUpInside)
         
@@ -131,8 +132,8 @@ class LoginController: UIViewController {
         //need x, y, width, height constraints
         profileImageView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
         profileImageView.bottomAnchor.constraintEqualToAnchor(inputsContainerView.topAnchor, constant: -12).active = true
-        profileImageView.widthAnchor.constraintEqualToConstant(150).active = true
-        profileImageView.heightAnchor.constraintEqualToConstant(150).active = true
+        profileImageView.widthAnchor.constraintEqualToConstant(200).active = true
+        profileImageView.heightAnchor.constraintEqualToConstant(200).active = true
     }
     
     func setupInputsContainerView() {
