@@ -205,8 +205,8 @@ class LoginController: UIViewController {
         //need x, y, width, height constraints
         profileImageView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
         profileImageView.bottomAnchor.constraintEqualToAnchor(loginRegisterSegmentedControl.topAnchor, constant: -12).active = true
-        profileImageView.widthAnchor.constraintEqualToConstant(150).active = true
-        profileImageView.heightAnchor.constraintEqualToConstant(150).active = true
+        profileImageView.widthAnchor.constraintEqualToConstant(200).active = true
+        profileImageView.heightAnchor.constraintEqualToConstant(200).active = true
     }
     
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
