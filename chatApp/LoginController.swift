@@ -61,7 +61,6 @@ class LoginController: UIViewController {
         })
         
     }
-    
     func handleRegister() {
         guard let email = emailTextField.text, password = passwordTextField.text, name = nameTextField.text else {
             print("Form is not valid")
@@ -80,7 +79,7 @@ class LoginController: UIViewController {
             }
             
             //successfully authenticated user
-            let ref = FIRDatabase.database().referenceFromURL("https://gameofchats-762ca.firebaseio.com/")
+            let ref = FIRDatabase.database().referenceFromURL("https://chatapp-55ba1.firebaseio.com/")
             let usersReference = ref.child("users").child(uid)
             let values = ["name": name, "email": email]
             usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
@@ -132,7 +131,6 @@ class LoginController: UIViewController {
         return tf
     }()
     
-    
     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "quickchatImage")
@@ -142,10 +140,8 @@ class LoginController: UIViewController {
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectedProfileImageView)))
         imageView.userInteractionEnabled = true
         
-        
         return imageView
     }()
-
     
     lazy var loginRegisterSegmentedControl: UISegmentedControl = {
         let sc = UISegmentedControl(items: ["Login", "Register"])
@@ -205,8 +201,8 @@ class LoginController: UIViewController {
         //need x, y, width, height constraints
         profileImageView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
         profileImageView.bottomAnchor.constraintEqualToAnchor(loginRegisterSegmentedControl.topAnchor, constant: -12).active = true
-        profileImageView.widthAnchor.constraintEqualToConstant(200).active = true
-        profileImageView.heightAnchor.constraintEqualToConstant(200).active = true
+        profileImageView.widthAnchor.constraintEqualToConstant(150).active = true
+        profileImageView.heightAnchor.constraintEqualToConstant(150).active = true
     }
     
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
@@ -287,5 +283,6 @@ extension UIColor {
     }
     
 }
+
 
 
