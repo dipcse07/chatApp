@@ -12,6 +12,8 @@ import Firebase
 
 class LoginController: UIViewController {
     
+    var messagesController: MessagesController?
+    
     let inputsContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.whiteColor()
@@ -56,44 +58,14 @@ class LoginController: UIViewController {
             }
             
             //successfully logged in our user
+            self.messagesController?.fetchUserAndSetupNavBarTitle()
+            
             self.dismissViewControllerAnimated(true, completion: nil)
             
         })
         
     }
-    func handleRegister() {
-        guard let email = emailTextField.text, password = passwordTextField.text, name = nameTextField.text else {
-            print("Form is not valid")
-            return
-        }
-        
-        FIRAuth.auth()?.createUserWithEmail(email, password: password, completion: { (user: FIRUser?, error) in
-            
-            if error != nil {
-                print(error)
-                return
-            }
-            
-            guard let uid = user?.uid else {
-                return
-            }
-            
-            //successfully authenticated user
-            let ref = FIRDatabase.database().referenceFromURL("https://chatapp-55ba1.firebaseio.com/")
-            let usersReference = ref.child("users").child(uid)
-            let values = ["name": name, "email": email]
-            usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
-                
-                if err != nil {
-                    print(err)
-                    return
-                }
-                
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
-            
-        })
-    }
+
     
     let nameTextField: UITextField = {
         let tf = UITextField()
@@ -201,8 +173,8 @@ class LoginController: UIViewController {
         //need x, y, width, height constraints
         profileImageView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
         profileImageView.bottomAnchor.constraintEqualToAnchor(loginRegisterSegmentedControl.topAnchor, constant: -12).active = true
-        profileImageView.widthAnchor.constraintEqualToConstant(150).active = true
-        profileImageView.heightAnchor.constraintEqualToConstant(150).active = true
+        profileImageView.widthAnchor.constraintEqualToConstant(200).active = true
+        profileImageView.heightAnchor.constraintEqualToConstant(200).active = true
     }
     
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F00C9971D3B9AF800045FB3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F00C9961D3B9AF800045FB3 /* Extensions.swift */; };
 		1F13A2651D3A922B001666F6 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13A2641D3A922B001666F6 /* LoginController+handlers.swift */; };
 		1F1D8D301D392DEC004EE892 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1D8D2F1D392DEC004EE892 /* GoogleService-Info.plist */; };
 		1F3D531C1D389ECE009B1E2E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D531B1D389ECE009B1E2E /* LoginController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F00C9961D3B9AF800045FB3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F13A2641D3A922B001666F6 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		1F1D8D2F1D392DEC004EE892 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1F3D531B1D389ECE009B1E2E /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -56,6 +58,14 @@
 				F91BA425BF7600F9C6202DA8 /* Pods_chatApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1F00C9951D3B9AE100045FB3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1F00C9961D3B9AF800045FB3 /* Extensions.swift */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		1F3D531A1D389EA0009B1E2E /* Controller */ = {
@@ -105,6 +115,7 @@
 		1FD111F11D37CBAC001013BA /* chatApp */ = {
 			isa = PBXGroup;
 			children = (
+				1F00C9951D3B9AE100045FB3 /* Helpers */,
 				1FC4D5A61D3A34BF00C4BCA7 /* Model */,
 				1F3D531D1D38A27F009B1E2E /* Utilities */,
 				1F3D531A1D389EA0009B1E2E /* Controller */,
@@ -256,6 +267,7 @@
 				1F3D531C1D389ECE009B1E2E /* LoginController.swift in Sources */,
 				1FC4D5A81D3A351300C4BCA7 /* User.swift in Sources */,
 				1FD111F31D37CBAC001013BA /* AppDelegate.swift in Sources */,
+				1F00C9971D3B9AF800045FB3 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
