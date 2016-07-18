@@ -20,12 +20,13 @@ class MessagesController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserIsLoggedIn()
+        
         observeMessages()
     }
     
     var messages = [Message]()
     
-    func observeMessages(){
+    func observeMessages() {
         let ref = FIRDatabase.database().reference().child("messages")
         ref.observeEventType(.ChildAdded, withBlock: { (snapshot) in
             
@@ -34,10 +35,10 @@ class MessagesController: UITableViewController {
                 message.setValuesForKeysWithDictionary(dictionary)
                 self.messages.append(message)
                 
-                dispatch_async(dispatch_get_main_queue(), { 
-                     self.tableView.reloadData()
+                //this will crash because of background thread, so lets call this on dispatch_async main thread
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.tableView.reloadData()
                 })
-                
             }
             
             }, withCancelBlock: nil)
@@ -134,10 +135,10 @@ class MessagesController: UITableViewController {
         
         self.navigationItem.titleView = titleView
         
-        //titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
+        //        titleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showChatController)))
     }
     
-    func showChatControllerForUser(user: User){
+    func showChatControllerForUser(user: User) {
         let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
         chatLogController.user = user
         navigationController?.pushViewController(chatLogController, animated: true)
