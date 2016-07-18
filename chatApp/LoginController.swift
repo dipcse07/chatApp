@@ -58,6 +58,7 @@ class LoginController: UIViewController {
             }
             
             //successfully logged in our user
+            
             self.messagesController?.fetchUserAndSetupNavBarTitle()
             
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -65,7 +66,6 @@ class LoginController: UIViewController {
         })
         
     }
-
     
     let nameTextField: UITextField = {
         let tf = UITextField()
@@ -109,7 +109,7 @@ class LoginController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .ScaleAspectFill
         
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectedProfileImageView)))
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImageView)))
         imageView.userInteractionEnabled = true
         
         return imageView
@@ -173,8 +173,8 @@ class LoginController: UIViewController {
         //need x, y, width, height constraints
         profileImageView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
         profileImageView.bottomAnchor.constraintEqualToAnchor(loginRegisterSegmentedControl.topAnchor, constant: -12).active = true
-        profileImageView.widthAnchor.constraintEqualToConstant(200).active = true
-        profileImageView.heightAnchor.constraintEqualToConstant(200).active = true
+        profileImageView.widthAnchor.constraintEqualToConstant(150).active = true
+        profileImageView.heightAnchor.constraintEqualToConstant(150).active = true
     }
     
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?

@@ -10,78 +10,55 @@ import UIKit
 import Firebase
 
 class MessagesController: UITableViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout",style: .Plain,target: self,action: #selector(handleLogout))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: #selector(handleLogout))
+        
         let image = UIImage(named: "new_message_icon")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Plain, target: self, action: #selector(handelNewMessage))
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .Plain, target: self, action: #selector(handleNewMessage))
         
         checkIfUserIsLoggedIn()
-        
-        }
-    
-    
-    
-    func handelNewMessage(){
-        let newMessageController = NewMessageController()
-        
-        let navController = UINavigationController(rootViewController: newMessageController)
-        
-        presentViewController(navController, animated: true, completion: nil)
-        
-        
     }
     
-    func checkIfUserIsLoggedIn(){
-        
+    func handleNewMessage() {
+        let newMessageController = NewMessageController()
+        let navController = UINavigationController(rootViewController: newMessageController)
+        presentViewController(navController, animated: true, completion: nil)
+    }
+    
+    func checkIfUserIsLoggedIn() {
         if FIRAuth.auth()?.currentUser?.uid == nil {
             performSelector(#selector(handleLogout), withObject: nil, afterDelay: 0)
-            
-        }else{
-
+        } else {
             fetchUserAndSetupNavBarTitle()
         }
-        
     }
     
-    func fetchUserAndSetupNavBarTitle(){
-        
-        guard  let uid = FIRAuth.auth()?.currentUser?.uid else{
-            // for some reason uid = nil
+    func fetchUserAndSetupNavBarTitle() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            //for some reason uid = nil
             return
         }
+        
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
             
-            
-            if let dictionary = snapshot.value as? [String: AnyObject]{
-            
-               // self.navigationItem.title = dictionary["name"] as? String
-            
-            
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                //                self.navigationItem.title = dictionary["name"] as? String
+                
                 let user = User()
-                
                 user.setValuesForKeysWithDictionary(dictionary)
-            
                 self.setupNavBarWithUser(user)
-                
             }
-            
-            
-            
             
             }, withCancelBlock: nil)
     }
     
-    
-    func setupNavBarWithUser(user: User){
-        //self.navigationItem.title = user.name
+    func setupNavBarWithUser(user: User) {
         let titleView = UIView()
         titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        //titleView.backgroundColor = UIColor.redColor()
+        //        titleView.backgroundColor = UIColor.redColor()
         
         let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -92,28 +69,26 @@ class MessagesController: UITableViewController {
         profileImageView.contentMode = .ScaleAspectFill
         profileImageView.layer.cornerRadius = 20
         profileImageView.clipsToBounds = true
-        
-        
         if let profileImageUrl = user.profileImageUrl {
             profileImageView.loadImageUsingCacheWithUrlString(profileImageUrl)
         }
         
-        containerView.addSubview(profileImageView )
+        containerView.addSubview(profileImageView)
         
-        //ios 9 constraints anchors
+        //ios 9 constraint anchors
+        //need x,y,width,height anchors
         profileImageView.leftAnchor.constraintEqualToAnchor(containerView.leftAnchor).active = true
         profileImageView.centerYAnchor.constraintEqualToAnchor(containerView.centerYAnchor).active = true
         profileImageView.widthAnchor.constraintEqualToConstant(40).active = true
         profileImageView.heightAnchor.constraintEqualToConstant(40).active = true
         
         let nameLabel = UILabel()
-        containerView.addSubview(nameLabel)
         
+        containerView.addSubview(nameLabel)
         nameLabel.text = user.name
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        // need x,y,width,height anchor
-        nameLabel.leftAnchor.constraintEqualToAnchor(profileImageView.rightAnchor,constant:  8).active = true
+        //need x,y,width,height anchors
+        nameLabel.leftAnchor.constraintEqualToAnchor(profileImageView.rightAnchor, constant: 8).active = true
         nameLabel.centerYAnchor.constraintEqualToAnchor(profileImageView.centerYAnchor).active = true
         nameLabel.rightAnchor.constraintEqualToAnchor(containerView.rightAnchor).active = true
         nameLabel.heightAnchor.constraintEqualToAnchor(profileImageView.heightAnchor).active = true
@@ -121,17 +96,14 @@ class MessagesController: UITableViewController {
         containerView.centerXAnchor.constraintEqualToAnchor(titleView.centerXAnchor).active = true
         containerView.centerYAnchor.constraintEqualToAnchor(titleView.centerYAnchor).active = true
         
-        
-        
-        
         self.navigationItem.titleView = titleView
-        
     }
     
-    func handleLogout(){
-        do{
+    func handleLogout() {
+        
+        do {
             try FIRAuth.auth()?.signOut()
-        }catch let logoutError{
+        } catch let logoutError {
             print(logoutError)
         }
         
@@ -139,9 +111,6 @@ class MessagesController: UITableViewController {
         loginController.messagesController = self
         presentViewController(loginController, animated: true, completion: nil)
     }
-
-    
-    
     
 }
 
