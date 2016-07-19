@@ -10,6 +10,7 @@
 		1F00C9971D3B9AF800045FB3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F00C9961D3B9AF800045FB3 /* Extensions.swift */; };
 		1F13A2651D3A922B001666F6 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F13A2641D3A922B001666F6 /* LoginController+handlers.swift */; };
 		1F1D8D301D392DEC004EE892 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F1D8D2F1D392DEC004EE892 /* GoogleService-Info.plist */; };
+		1F3893131D3E287B009A2153 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3893121D3E287B009A2153 /* UserCell.swift */; };
 		1F3D531C1D389ECE009B1E2E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3D531B1D389ECE009B1E2E /* LoginController.swift */; };
 		1F5C5BBB1D3A0BCF00985014 /* NewMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5C5BBA1D3A0BCF00985014 /* NewMessageController.swift */; };
 		1FC4D5A81D3A351300C4BCA7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4D5A71D3A351300C4BCA7 /* User.swift */; };
@@ -27,6 +28,7 @@
 		1F00C9961D3B9AF800045FB3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1F13A2641D3A922B001666F6 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
 		1F1D8D2F1D392DEC004EE892 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1F3893121D3E287B009A2153 /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		1F3D531B1D389ECE009B1E2E /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		1F5C5BBA1D3A0BCF00985014 /* NewMessageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewMessageController.swift; sourceTree = "<group>"; };
 		1FC4D5A71D3A351300C4BCA7 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 				1F00C9961D3B9AF800045FB3 /* Extensions.swift */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		1F3893111D3E2840009A2153 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1F3893121D3E287B009A2153 /* UserCell.swift */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		1F3D531A1D389EA0009B1E2E /* Controller */ = {
@@ -121,6 +131,7 @@
 		1FD111F11D37CBAC001013BA /* chatApp */ = {
 			isa = PBXGroup;
 			children = (
+				1F3893111D3E2840009A2153 /* View */,
 				1F00C9951D3B9AE100045FB3 /* Helpers */,
 				1FC4D5A61D3A34BF00C4BCA7 /* Model */,
 				1F3D531D1D38A27F009B1E2E /* Utilities */,
@@ -275,6 +286,7 @@
 				1F3D531C1D389ECE009B1E2E /* LoginController.swift in Sources */,
 				1FC4D5A81D3A351300C4BCA7 /* User.swift in Sources */,
 				1FD111F31D37CBAC001013BA /* AppDelegate.swift in Sources */,
+				1F3893131D3E287B009A2153 /* UserCell.swift in Sources */,
 				1F00C9971D3B9AF800045FB3 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
