@@ -25,12 +25,52 @@ class MessagesController: UITableViewController {
         
         tableView.registerClass(UserCell.self, forCellReuseIdentifier: cellId)
         
-        observeMessages()
+        //observeMessages()
+        
     }
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
     
+    func observeUserMesssages(){
+        
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else{
+            return
+        }
+        
+        let ref = FIRDatabase.database().reference().child("user-messages").child(uid)
+        
+        ref.observeEventType(.ChildAdded, withBlock: { (snapshot) in
+            
+            let messageId = snapshot.key
+            let messageReferecne = FIRDatabase.database().reference().child("messages").child(messageId)
+            messageReferecne.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+//                print(snapshot)
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let message = Message()
+                    message.setValuesForKeysWithDictionary(dictionary)
+                    // self.messages.append(message)
+                    
+                    if let toId = message.toId {
+                        self.messagesDictionary[toId] = message
+                        
+                        self.messages = Array(self.messagesDictionary.values)
+                        self.messages.sortInPlace({ (message1, message2) -> Bool in
+                            return message1.timestamp?.intValue > message2.timestamp?.intValue
+                        })
+                    }
+                    
+                    //this will crash because of background thread, so lets call this on dispatch_async main thread
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.tableView.reloadData()
+                    })
+                }
+                }, withCancelBlock: nil)
+            
+            }, withCancelBlock: nil)
+        
+    }
     
     func observeMessages() {
         let ref = FIRDatabase.database().reference().child("messages")
@@ -76,6 +116,28 @@ class MessagesController: UITableViewController {
         return 72
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let message = messages[indexPath.row]
+        
+        guard let chatPartnerId = message.chatPartnerId() else {
+            return
+        }
+        
+        let ref = FIRDatabase.database().reference().child("users").child(chatPartnerId)
+        ref.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: AnyObject] else {
+                return
+            }
+            
+            let user = User()
+            user.id = chatPartnerId
+            user.setValuesForKeysWithDictionary(dictionary)
+            self.showChatControllerForUser(user)
+            
+            }, withCancelBlock: nil)
+  
+           }
+    
     func handleNewMessage() {
         let newMessageController = NewMessageController()
         newMessageController.messagesController = self
@@ -111,6 +173,13 @@ class MessagesController: UITableViewController {
     }
     
     func setupNavBarWithUser(user: User) {
+        
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
+        
+        observeUserMesssages()
+        
         let titleView = UIView()
         titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
         //        titleView.backgroundColor = UIColor.redColor()
