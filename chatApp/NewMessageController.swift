@@ -73,8 +73,6 @@ class NewMessageController: UITableViewController {
         return 72
     }
     
-    
-    
     var messagesController: MessagesController?
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

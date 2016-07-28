@@ -13,25 +13,23 @@ class UserCell: UITableViewCell {
     
     var message: Message? {
         didSet {
-
             setupNameAndProfileImage()
             
-           detailTextLabel?.text = message?.text
+            detailTextLabel?.text = message?.text
             
             if let seconds = message?.timestamp?.doubleValue {
-                let timeStampDate = NSDate(timeIntervalSince1970: seconds)
+                let timestampDate = NSDate(timeIntervalSince1970: seconds)
+                
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "hh:mm:ss a"
-                timeLabel.text = dateFormatter.stringFromDate(timeStampDate)
+                timeLabel.text = dateFormatter.stringFromDate(timestampDate)
             }
-        
+            
             
         }
     }
     
-    private func setupNameAndProfileImage()
-    {
-
+    private func setupNameAndProfileImage() {
         
         if let id = message?.chatPartnerId() {
             let ref = FIRDatabase.database().reference().child("users").child(id)
@@ -68,12 +66,11 @@ class UserCell: UITableViewCell {
     
     let timeLabel: UILabel = {
         let label = UILabel()
-        // label.text = "HH:MM:SS"
+        //        label.text = "HH:MM:SS"
         label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.lightGrayColor()
+        label.textColor = UIColor.darkGrayColor()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-        
     }()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -91,10 +88,9 @@ class UserCell: UITableViewCell {
         
         //need x,y,width,height anchors
         timeLabel.rightAnchor.constraintEqualToAnchor(self.rightAnchor).active = true
-        timeLabel.topAnchor.constraintEqualToAnchor(self.topAnchor,constant: 20).active = true
+        timeLabel.topAnchor.constraintEqualToAnchor(self.topAnchor, constant: 18).active = true
         timeLabel.widthAnchor.constraintEqualToConstant(100).active = true
         timeLabel.heightAnchor.constraintEqualToAnchor(textLabel?.heightAnchor).active = true
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -1,4 +1,4 @@
-//
+ //
 //  ChatLogController.swift
 //  chatApp
 //
@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatLogController: UICollectionViewController, UITextFieldDelegate,UICollectionViewDelegateFlowLayout  {
+class ChatLogController: UICollectionViewController, UITextFieldDelegate, UICollectionViewDelegateFlowLayout {
     
     var user: User? {
         didSet {
@@ -21,7 +21,7 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate,UIColle
     
     var messages = [Message]()
     
-    func observeMessages(){
+    func observeMessages() {
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
@@ -65,14 +65,14 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate,UIColle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         collectionView?.alwaysBounceVertical = true
         collectionView?.backgroundColor = UIColor.whiteColor()
-        collectionView?.registerClass(ChatMessagesCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.registerClass(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         
-         setupInputComponents()
-    
+        setupInputComponents()
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -80,14 +80,15 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate,UIColle
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! ChatMessagesCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellId, forIndexPath: indexPath) as! ChatMessageCell
         
         let message = messages[indexPath.item]
         cell.textView.text = message.text
         
-        //Lets modify the bubbleView's width somehow??
+        //lets modify the bubbleView's width somehow???
         
-        cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 40
+        cell.bubbleWidthAnchor?.constant = estimateFrameForText(message.text!).width + 32 
+        
         return cell
     }
     
@@ -97,20 +98,20 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate,UIColle
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        var height:CGFloat = 80
+        var height: CGFloat = 80
+        
+        //get estimated height somehow????
         if let text = messages[indexPath.item].text {
             height = estimateFrameForText(text).height + 20
         }
+        
         return CGSize(width: view.frame.width, height: height)
     }
     
-    private func estimateFrameForText(text: String) -> CGRect{
-        
-        let size = CGSize(width: 200, height: 2500)
+    private func estimateFrameForText(text: String) -> CGRect {
+        let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.UsesFontLeading.union(.UsesLineFragmentOrigin)
-        
         return NSString(string: text).boundingRectWithSize(size, options: options, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(16)], context: nil)
-        
     }
     
     func setupInputComponents() {
@@ -164,25 +165,24 @@ class ChatLogController: UICollectionViewController, UITextFieldDelegate,UIColle
         let fromId = FIRAuth.auth()!.currentUser!.uid
         let timestamp: NSNumber = Int(NSDate().timeIntervalSince1970)
         let values = ["text": inputTextField.text!, "toId": toId, "fromId": fromId, "timestamp": timestamp]
-       // childRef.updateChildValues(values)
+        //        childRef.updateChildValues(values)
         
         childRef.updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error)
                 return
             }
+            
             self.inputTextField.text = nil
             
             let userMessagesRef = FIRDatabase.database().reference().child("user-messages").child(fromId)
+            
             let messageId = childRef.key
             userMessagesRef.updateChildValues([messageId: 1])
             
             let recipientUserMessagesRef = FIRDatabase.database().reference().child("user-messages").child(toId)
             recipientUserMessagesRef.updateChildValues([messageId: 1])
-            
         }
-        
-        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
